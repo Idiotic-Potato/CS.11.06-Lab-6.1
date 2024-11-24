@@ -1,16 +1,16 @@
 import java.io.*;
 import java.util.Scanner;
+import java.io.IOException;
 
 public class AdventureTime {
 
-    /** This is the main method and it is where you will test your implementations for challengeOne, challengeTwo, etc.
-     *
-     * @param args
-     * @throws IOException
-     */
+
+
     public static void main(String[] args) throws IOException {
 
-
+        String fileName = "testInputThreeFour.txt";
+        int result = challengeThree(fileName);
+        System.out.println("Number of measurements larger than the previous measurement: " + result);
     }
 
     /** TODO 1
@@ -22,20 +22,42 @@ public class AdventureTime {
      * @throws IOException
      */
     public static int challengeOne(String fileName) throws IOException {
-        return 0;
+//        int[] data = readFile(fileName);
+//        int count = 0;
+//        for(int i = 1; i<data.length;i++){
+//            if(data[i]>data[i-1]){
+//                count++;}}
+//        return count;
+    return 0;}
+
+
+
+            /** TODO 2
+             *
+             * Challenge 2
+             *
+             * @param fileName
+             * @return Answer to Challenge 2
+             * @throws FileNotFoundException
+             */
+    public static int challengeTwo(String fileName) throws FileNotFoundException {
+        int[] data = readFile(fileName);
+        int count1 = 0;
+        for (int i = 0; i < data.length - 3; i++) {
+            int compare = data[i] + data[i + 1] + data[i + 2];
+            int compare1 = data[i + 1] + data[i + 2] + data[i + 3];
+            if (compare < compare1) {
+                count1++;
+            }
+        }
+        return count1;
     }
 
-    /** TODO 2
-     *
-     * Challenge 2
-     *
-     * @param fileName
-     * @return Answer to Challenge 2
-     * @throws FileNotFoundException
-     */
-    public static int challengeTwo(String fileName) throws FileNotFoundException {
-        return 0;
-    }
+
+
+
+
+
 
     /** TODO 3
      *
@@ -46,8 +68,29 @@ public class AdventureTime {
      * @throws FileNotFoundException
      */
     public static int challengeThree(String fileName) throws FileNotFoundException {
-        return 0;
-    }
+        char[][] data = readFileToCharArrays(fileName);
+        int depth = 0;
+        int horizontal = 0;
+        for (int i = 0; i < data.length; i++) {
+            char value = data[i][0];
+            if (value == 'f') {
+             horizontal = horizontal + data[i][8];
+            }
+            if (value == 'u'){
+              depth = depth - data[i][3];
+            }
+            if(value=='d'){
+                depth = depth + data[i][5];
+            }
+}
+           return depth*horizontal;
+
+        }
+
+
+
+
+
 
     /** TODO 4
      *
@@ -74,7 +117,8 @@ public class AdventureTime {
         bufferedWriter.close();
     }
 
-    /** This method will read the values in inputFilename into an array of integers, which it will return.
+    /**
+     * This method will read the values in inputFilename into an array of integers, which it will return.
      * Do not edit this method.
      */
     private static int[] readFile(String inputFilename) throws FileNotFoundException {
@@ -103,6 +147,21 @@ public class AdventureTime {
         }
         scanner.close();
         return lineCount;
+    }
+    public static char[][] readFileToCharArrays(String inputFilename) throws FileNotFoundException {
+        File file = new File(inputFilename);
+        int numberOfLinesInFile = countLinesInFile(inputFilename);
+        char[][] data = new char[numberOfLinesInFile][];
+        int index = 0;
+
+        try (Scanner scanner = new Scanner(file)) {
+            while (scanner.hasNextLine()) {
+                String line = scanner.nextLine();
+                data[index++] = line.toCharArray();
+            }
+        }
+
+        return data;
     }
 
 }
